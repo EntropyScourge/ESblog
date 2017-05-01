@@ -1,0 +1,15 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    {% for Entry in entries %}
+        <div class="entry">
+            <h2><a href="{% url 'entry_detail' pk=Entry.pk %}">{{Entry.title}}</a></h2>
+            <p>By {{Entry.author.username}}</p>
+            <p>{{Entry.entry_body|safe|linebreaksbr|truncatewords:"200"}}</p>
+            <h4><a href="{% url 'entry_detail' pk=Entry.pk %}">Continue reading...</a></h4>
+            <div class="date">
+                <p>published: {{Entry.pub_date}}</p>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
