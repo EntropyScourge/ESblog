@@ -10,7 +10,7 @@ from .models import Entry
 
 def frontpage(request):
     entries_all = Entry.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')
-    paginator = Paginator(entries_all,10)
+    paginator = Paginator(entries_all,5)
     page = request.GET.get('page')
     try:
         entries = paginator.page(page)
@@ -20,9 +20,14 @@ def frontpage(request):
         entries = paginator.page(paginator.num_pages)
     return render_to_response('blog/frontpage.html',{'entries':entries})
 
-def entry_detail(request, pk):
-    entry = get_object_or_404(Entry, pk=pk)
-    return render(request,'blog/entry_detail.html',{'entry':entry})
+def frontpage_redirect(request):
+    return redirect('frontpage')
+
+#def entry_detail(request, pk):
+#    entry = get_object_or_404(Entry, pk=pk)
+#    return render(request,'blog/entry_detail.html',{'entry':entry})
+
+
 
 @login_required
 def entry_form(request):
@@ -37,3 +42,5 @@ def entry_form(request):
     else:
         form = EntryForm()
     return render(request,'blog/entry_edit.html',{'form':form})
+
+#
