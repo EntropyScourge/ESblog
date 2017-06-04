@@ -6,7 +6,6 @@ from . import views
 from .models import Entry
 
 def datify(date_time_str):
-    print date_time_str
     date_time = parser.parse(date_time_str)
     date_time = date_time.replace(tzinfo=None)
     received_datetime = datetime.strptime(date_time,'%Y-%m-%d %H:%M:%S')
