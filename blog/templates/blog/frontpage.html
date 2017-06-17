@@ -3,13 +3,28 @@
 {% block content %}
     {% for Entry in entries %}
         <div class="entry">
-            <h2><a href="{% url 'entry_detail' pk=Entry.pk %}">{{Entry.title}}</a></h2>
+            <h2><a href="{% url 'entry_detail' year=Entry.pub_date.year|stringformat:".04d" month=Entry.pub_date.month|stringformat:"02d" day=Entry.pub_date.day|stringformat:"02d" pk=Entry.pk %}">{{Entry.title}}</a></h2>
             <p>By {{Entry.author.username}}</p>
             <p>{{Entry.entry_body|safe|linebreaksbr|truncatewords:"200"}}</p>
-            <h4><a href="{% url 'entry_detail' pk=Entry.pk %}">Continue reading...</a></h4>
+            <h4><a href="{% url 'entry_detail' year=Entry.pub_date.year|stringformat:".04d" month=Entry.pub_date.month|stringformat:"02d" day=Entry.pub_date.day|stringformat:"02d" pk=Entry.pk %}">Continue reading...</a></h4>
             <div class="date">
                 <p>published: {{Entry.pub_date}}</p>
             </div>
         </div>
     {% endfor %}
+    <div class="pagination">
+    <span class="step-links">
+        {% if entries.has_previous %}
+            <a href="?page={{ entries.previous_page_number }}">previous</a>
+        {% endif %} 
+
+        <span class="current">
+            Page {{ entries.number }} of {{ entries.paginator.num_pages }}.
+        </span>
+
+        {% if entries.has_next %}
+            <a href="?page={{ entries.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
 {% endblock %}
